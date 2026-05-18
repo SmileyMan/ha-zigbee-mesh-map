@@ -79,6 +79,15 @@ sensor:
     json_attributes_template: "{{ value_json.data.value | tojson }}"
 ```
 
+The network map sensor carries a large JSON payload that Home Assistant will try to record. To avoid the `State attributes exceed maximum size of 16384 bytes` warning and unnecessary database bloat, exclude it from the recorder in your `configuration.yaml`:
+
+```yaml
+recorder:
+  exclude:
+    entities:
+      - sensor.zigbee2mqtt_networkmap
+```
+
 ## 🧩 Usage
 
 Add the card to your Lovelace dashboard:
@@ -165,20 +174,20 @@ node_radius:
   end_device: 4                  # end device node radius
 
 # --- Link quality ---
-min_lqi: 0                       # LQI threshold for weak links
-min_lqi_mode: dim                # "dim" (fade weak links) or "remove" (hide them)
+min_lqi: 50                      # LQI threshold for weak links
+min_lqi_mode: remove             # "remove" (hide weak neighbor links) or "dim" (fade them). Only affects neighbor links — route and backbone links keep their full style.
 link_style:
   backbone_width: 3.0            # backbone links (between core routers)
   backbone_opacity: 1
   backbone_dash: ""              # "" = solid
   route_width: 0.8               # route links (to leaf routers / end devices)
-  route_opacity: 0.7
+  route_opacity: 0.8
   route_dash: ""
   neighbor_width: 0.5            # neighbor links (relationship: 2, non-routing)
-  neighbor_opacity: 0.3
+  neighbor_opacity: 0.6
   neighbor_dash: "3,2"           # SVG stroke-dasharray pattern
   dim_width: 0.5                 # weak link thickness (below min_lqi)
-  dim_opacity: 0.25              # weak link opacity (below min_lqi)
+  dim_opacity: 0.1               # weak link opacity (below min_lqi)
 
 # --- Zoom ---
 zoom:

@@ -1,6 +1,6 @@
 import * as d3 from "https://cdn.skypack.dev/d3@7";
 
-const CARD_VERSION = "1.3.0";
+const CARD_VERSION = "1.3.1-alpha.1";
 
 const DEFAULTS = {
     link_filter: "parent-child",
@@ -32,20 +32,20 @@ const DEFAULTS = {
         node_spacing: 1.0,
         level_depth: 80
     },
-    min_lqi: 0,
-    min_lqi_mode: "dim",
+    min_lqi: 50,
+    min_lqi_mode: "remove",
     link_style: {
         backbone_width: 3.0,
         backbone_opacity: 1,
         backbone_dash: "",
         route_width: 0.8,
-        route_opacity: 0.7,
+        route_opacity: 0.8,
         route_dash: "",
         neighbor_width: 0.5,
-        neighbor_opacity: 0.3,
+        neighbor_opacity: 0.6,
         neighbor_dash: "3,2",
         dim_width: 0.5,
-        dim_opacity: 0.25
+        dim_opacity: 0.1
     },
     refresh_script: "script.zigbee_map_refresh",
     mock_data: false
@@ -656,6 +656,7 @@ class ZigbeeMeshMapCard extends HTMLElement {
         const allLinks = Array.from(linkMap.values());
         const links = minLqiMode === "remove"
             ? allLinks.filter(d => {
+                if (d.tier !== "neighbor") return true;
                 const lqi = d.lqiReverse != null ? (d.lqi + d.lqiReverse) / 2 : d.lqi;
                 return lqi == null || lqi >= minLqi;
             })
@@ -708,6 +709,7 @@ class ZigbeeMeshMapCard extends HTMLElement {
         const avgLqi = (d) => d.lqiReverse != null ? (d.lqi + d.lqiReverse) / 2 : d.lqi;
 
         const isWeak = (d) => {
+            if (d.tier !== "neighbor") return false;
             const lqi = avgLqi(d);
             return lqi != null && lqi < minLqi;
         };
