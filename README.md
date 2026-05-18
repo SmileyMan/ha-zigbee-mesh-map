@@ -55,12 +55,12 @@ Click the button below to automatically open the repository in HACS:
 5. Click **Add**, then search for "Zigbee Mesh Map Card" to install.
 
 ### Method 3: Manual Installation
-1. Download `zigbee-mesh-map.js` from the [latest release](https://github.com/lubomir-moric/ha-zigbee-mesh-map/releases)
+1. Download `ha-zigbee-mesh-map.js` from the [latest release](https://github.com/lubomir-moric/ha-zigbee-mesh-map/releases)
 2. Place it in `/config/www/zigbee-mesh-map/`
 3. Add the resource:
 
 ```yaml
-url: /local/zigbee-mesh-map/zigbee-mesh-map.js
+url: /local/zigbee-mesh-map/ha-zigbee-mesh-map.js
 type: module
 ```
 
