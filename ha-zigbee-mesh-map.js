@@ -1,6 +1,6 @@
 import * as d3 from "https://cdn.skypack.dev/d3@7";
 
-const CARD_VERSION = "1.3.1-alpha.1";
+const CARD_VERSION = "1.3.1";
 
 const DEFAULTS = {
     link_filter: "parent-child",
